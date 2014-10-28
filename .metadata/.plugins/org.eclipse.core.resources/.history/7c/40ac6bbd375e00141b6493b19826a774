@@ -1,0 +1,13 @@
+package pnpiot.serializationperf;
+
+/**
+ * Hello world!
+ *
+ */
+public class Avro 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+    }
+}
