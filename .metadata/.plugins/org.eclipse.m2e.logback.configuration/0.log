@@ -422,3 +422,27 @@
 2014-10-28 13:07:46,248 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
 2014-10-28 13:07:46,264 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2014-10-28 13:07:46,264 [Worker-38] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:17:34,466 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:17:34,481 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:17:34,481 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:17:34,481 [Worker-3] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:17:34,622 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:17:34,622 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:17:34,622 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:17:34,622 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:18:23,720 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:18:23,720 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:18:23,720 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:18:23,720 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:22:38,487 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:22:38,487 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:22:38,487 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:22:38,487 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:23:40,194 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:23:40,194 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:23:40,194 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:23:40,194 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
+2014-10-28 13:23:41,383 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:23:41,487 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\main\resources
+2014-10-28 13:23:41,512 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2014-10-28 13:23:41,519 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\hanz\Documents\GitHub\serializeperf\serializationperf\src\test\resources
