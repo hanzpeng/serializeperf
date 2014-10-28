@@ -1,16 +1,26 @@
 package pnpiot.serializationperf;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
+
 import org.apache.avro.Schema;
+import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.BinaryDecoder;
 import org.apache.avro.io.BinaryEncoder;
+import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DatumWriter;
+import org.apache.avro.io.Decoder;
+import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.EncoderFactory;
 
 public class AvroApp {
 	static String AvroSchema = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
+	static final int INNERLOOP = 1000;
 
 	public static void main(String[] args) throws Exception {
 		AvroSchema = AvroSchema.replace('`', '"');
@@ -28,17 +38,18 @@ public class AvroApp {
 
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < loops; i++) {
-			for (int j = 0; j < 1000; j++) {
+			for (int j = 0; j < INNERLOOP; j++) {
+				locRecord.put("timeStamp", new Date().getTime());
 				datumWriter.write(locRecord, encoder);
 			}
 			encoder.flush();
-			// byte[] serializedBytes = outStream.toByteArray();
+			displaySerializedRecord(outStream, schema);
 			outStream.reset();
 		}
 		outStream.close();
 
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		AppResult.printResult("AvroApp", loops, elapsedTime);
+		Result.writeToFile("AvroApp", loops, elapsedTime);
 	}
 
 	private static GenericRecord getLocRecord(Schema schema) {
@@ -51,6 +62,22 @@ public class AvroApp {
 		locRecord.put("altitude", 100);
 		locRecord.put("speed", 100);
 		return locRecord;
+	}
+
+	private static void displaySerializedRecord(ByteArrayOutputStream outStream, Schema schema) throws IOException {
+		byte[] serializedBytes = outStream.toByteArray();
+		BinaryDecoder decoder = null;
+		decoder = DecoderFactory.get().binaryDecoder(serializedBytes, decoder);
+		GenericDatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord>(schema);
+		GenericRecord rec = null;
+		int writeInterval = INNERLOOP / 5;  // write 5 records for each innerloop
+		for (int j = 0; !decoder.isEnd(); j++) {
+			rec = reader.read(rec, decoder);
+			if (j % writeInterval == 0) {
+				System.out.println(new Date((Long) rec.get("timeStamp")) + "  " + rec.toString());
+			}
+		}
+		System.out.println();
 	}
 }
 

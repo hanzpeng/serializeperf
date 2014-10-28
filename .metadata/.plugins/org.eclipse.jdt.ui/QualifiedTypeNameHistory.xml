@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.apache.avro.io.DecoderFactory"/>
+<fullyQualifiedTypeName name="org.apache.avro.io.Decoder"/>
+<fullyQualifiedTypeName name="org.apache.avro.io.DatumReader"/>
+<fullyQualifiedTypeName name="org.apache.avro.generic.GenericDatumReader"/>
 <fullyQualifiedTypeName name="pnpiot.serializationperf.Location"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="org.apache.avro.file.DataFileReader"/>
+<fullyQualifiedTypeName name="org.apache.avro.io.BinaryDecoder"/>
 </qualifiedTypeNameHistroy>
