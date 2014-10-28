@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 
 public class AppResult {
 	public static void printResult(String filename, long loops, long elapsedTime) throws Exception {
-		String filePath = System.getProperty("user.dir") + "\\" + filename + "txt";
+		String filePath = System.getProperty("user.dir") + "\\" + filename + ".txt";
 		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
 
 		System.out.println(filename + " Result");
