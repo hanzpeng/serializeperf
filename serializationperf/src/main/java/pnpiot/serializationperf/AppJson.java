@@ -1,32 +1,57 @@
 package pnpiot.serializationperf;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Date;
+
+import org.apache.avro.Schema;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.BinaryDecoder;
+import org.apache.avro.io.DecoderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import pnpiot.serializationperf.LocationJson;
 
 public class AppJson {
-	static String jsonInputStr = "{\"timeStamp\":101,\"fixType\":102,\"latitude\":400,\"longitude\":500,\"heading\":300,\"altitude\":100,\"speed\":255}";
+	//static String jsonInputStr = "{\"timeStamp\":101,\"fixType\":102,\"latitude\":400,\"longitude\":500,\"heading\":300,\"altitude\":100,\"speed\":255}";
+	static int innerloop = 1000;
+	static long loops = 1000;
 
 	public static void main(String[] args) throws Exception {
-		long loops = 1;
+		innerloop = 20;
+		loops = 5;
 		if (args.length > 0) {
-			loops = Math.abs(Integer.parseInt(args[0])) * 1000;
+			loops = Math.abs(Integer.parseInt(args[0]));
 		}
-		ObjectMapper mapper = new ObjectMapper();
-		LocationJson jsonObject = mapper.readValue(jsonInputStr, LocationJson.class);
 		long startTime = System.currentTimeMillis();
-		String jsonString = null;
 		for (int i = 0; i < loops; i++) {
-			for (int j = 0; j < 1000; j++) {
-				jsonObject.setTimeStamp(new Date().getTime());
-				jsonString = mapper.writeValueAsString(jsonObject);
+			ObjectMapper mapper = new ObjectMapper();
+			StringBuilder jsonString = new StringBuilder();
+			for (int j = 0; j < innerloop; j++) {
+				LocationJson jsonObject = createLocationRecord(j);
+				// LocationJson jsonObject = mapper.readValue(jsonInputStr, LocationJson.class);			
+				jsonString.append(mapper.writeValueAsString(jsonObject) + "\r\n");
 			}
-			System.out.println(new Date((Long) jsonObject.getTimeStamp()) + "  " + jsonString);
+			System.out.println(jsonString);
+			System.out.println();
 		}
 		long elapsedTime = System.currentTimeMillis() - startTime;
 		Result.writeToFile("AppJson", loops, elapsedTime);
+	}
+
+	private static LocationJson createLocationRecord(int i) {
+		LocationJson jsonObject = new LocationJson();
+		jsonObject.setTimeStamp(new Date().getTime());
+		jsonObject.setFixType((short) (i % 256));
+		jsonObject.setLatitude(200000 + i);
+		jsonObject.setLongitude(300000 + i);
+		jsonObject.setHeading(400000 + i);
+		jsonObject.setAltitude(500000 + i);
+		jsonObject.setSpeed((short) (i % 256));
+		return jsonObject;
 	}
 }
 
@@ -42,14 +67,14 @@ public class AppJson {
 
 // To run the jar files in PowerShell
 // Start PowerShell as admin
-// &"C:\Program Files\Java\jdk1.8.0_05\bin\java.exe" -jar jsonjackson.jar 20
+// &"C:\Program Files\Java\jdk1.8.0_05\bin\java.exe" -jar jsonjackson.jar 2000
 // open jsonjackson.txt in the current working folder
 
 // To use measure-command
 // Start PowerShell as admin
-// measure-command { &"C:\Program Files\Java\jdk1.8.0_05\bin\java.exe" -jar jsonjackson.jar 20}
+// measure-command { &"C:\Program Files\Java\jdk1.8.0_05\bin\java.exe" -jar jsonjackson.jar 2000}
 // open jsonjackson.txt in the current working folder
 
 // to run the jar file in command line for 3000 loops:
-// java -cp perf.jar pnpiot.serializationperf.JsonApp 3
+// java -cp perf.jar pnpiot.serializationperf.AppJson 3000
 

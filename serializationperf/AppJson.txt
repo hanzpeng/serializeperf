@@ -1,0 +1,11 @@
+AppJson Result
+Number of Iterations = 5
+Mini seconds elapsed = 343
+CommittedVirtualMemorySize = 249679872
+FreePhysicalMemorySize = 4395126784
+FreeSwapSpaceSize = 11646136320
+ProcessCpuLoad = -1.0
+ProcessCpuTime = 1046875000
+SystemCpuLoad = 0.7495736687566514
+TotalPhysicalMemorySize = 8398577664
+TotalSwapSpaceSize = 16988512256

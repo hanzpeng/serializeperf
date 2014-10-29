@@ -12,4 +12,5 @@
 <fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.LocationOrBuilder"/>
 <fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location.Builder"/>
 <fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
 </qualifiedTypeNameHistroy>

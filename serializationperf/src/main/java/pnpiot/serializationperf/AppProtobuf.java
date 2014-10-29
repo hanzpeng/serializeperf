@@ -1,7 +1,9 @@
 package pnpiot.serializationperf;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 
 import org.apache.avro.Schema;
@@ -22,50 +24,71 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 public class AppProtobuf {
 	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
-	static final int INNERLOOP = 2;
+	static int innerloop = 1000;
+	static long loops = 1000;
 
 	public static void main(String[] args) throws Exception {
-		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
-		long loops = 1;
+		innerloop = 20;
+		loops = 5;
 		if (args.length > 0) {
-			loops = Math.abs(Integer.parseInt(args[0])) * 1;
+			loops = Math.abs(Integer.parseInt(args[0]));
 		}
-
-		LocationProtobuf.Location.Builder builder = createLocationBuilder();
-		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-
+		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < loops; i++) {
-			for (int j = 0; j < INNERLOOP; j++) {
+			LocationProtobuf.Location.Builder builder = null;
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			for (int j = 0; j < innerloop; j++) {
+				builder = createLocationBuilder(j);
 				builder.setTimeStamp(new Date().getTime());
-				builder.build().writeTo(outStream);
+				builder.build().writeDelimitedTo(out);
 			}
-			outStream.flush();
-			displaySerializedRecord(outStream);
+			out.flush();
+			out.close();
+			displaySerializedRecord(out);
 		}
-		outStream.close();
 
 		long elapsedTime = System.currentTimeMillis() - startTime;
 		Result.writeToFile("AppProtobuf", loops, elapsedTime);
 	}
 
-	private static LocationProtobuf.Location.Builder createLocationBuilder() {
+	private static LocationProtobuf.Location.Builder createLocationBuilder(int i) {
 		LocationProtobuf.Location.Builder builder = LocationProtobuf.Location.newBuilder();
 		builder.setTimeStamp(new Date().getTime());
-		builder.setFixType(111);
-		builder.setLatitude(222);
-		builder.setLongitude(333);
-		builder.setHeading(444);
-		builder.setAltitude(555);
-		builder.setSpeed(666);
+		builder.setFixType(11100000 + i);
+		builder.setLatitude(22200000 + i);
+		builder.setLongitude(33300000 + i);
+		builder.setHeading(44400000 + i);
+		builder.setAltitude(55500000 + i);
+		builder.setSpeed(66600000 + i);
 		return builder;
 	}
 
-	private static void displaySerializedRecord(ByteArrayOutputStream outStream) throws InvalidProtocolBufferException {
+	private static void displaySerializedRecord(ByteArrayOutputStream out) throws Exception {
+		int writeInterval = innerloop / 5; // write 5 records for each innerloop
+		InputStream input = new ByteArrayInputStream(out.toByteArray());
 		LocationProtobuf.Location.Builder builder = LocationProtobuf.Location.newBuilder();
-		
-		builder.mergeFrom(outStream.toByteArray());
-		LocationProtobuf.Location location = builder.build();
-		System.out.println(location.getAllFields());
+		for (int j = 0; builder.mergeDelimitedFrom(input); j++) {
+			if (j % writeInterval == 0) {
+				System.out.print(new Date((long) builder.getTimeStamp()));
+				System.out.print(", ");
+				System.out.print(builder.getFixType());
+				System.out.print(", ");
+				System.out.print(builder.getLatitude());
+				System.out.print(", ");
+				System.out.print(builder.getLongitude());
+				System.out.print(", ");
+				System.out.print(builder.getHeading());
+				System.out.print(", ");
+				System.out.print(builder.getAltitude());
+				System.out.print(", ");
+				System.out.print(builder.getSpeed());
+				System.out.println();
+			}
+		}
+		System.out.println();
 	}
 }
+// to run the jar file in command line for 3000 loops:
+// java -cp perf.jar pnpiot.serializationperf.AppProtobuf 3000
+
