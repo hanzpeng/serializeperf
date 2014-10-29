@@ -8,4 +8,8 @@
 <fullyQualifiedTypeName name="java.util.Date"/>
 <fullyQualifiedTypeName name="org.apache.avro.file.DataFileReader"/>
 <fullyQualifiedTypeName name="org.apache.avro.io.BinaryDecoder"/>
+<fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf"/>
+<fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.LocationOrBuilder"/>
+<fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location.Builder"/>
+<fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location"/>
 </qualifiedTypeNameHistroy>

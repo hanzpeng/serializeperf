@@ -1,0 +1,14 @@
+package pnpiot.serializationperf;
+
+option java_package = "pnpiot.serializationperf";
+option java_outer_classname = "LocationProtobuf";
+
+message Location {
+	required int64 timeStamp;
+	required int32 fixType; 
+	required int32 latitude;
+	required int32 longitude;
+	required int32 heading;
+	required int32 altitude;
+	required int32 speed; 
+}
