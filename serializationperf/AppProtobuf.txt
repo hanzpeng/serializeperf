@@ -1,11 +1,11 @@
 AppProtobuf Result
 Number of Iterations = 5
-Mini seconds elapsed = 62
-CommittedVirtualMemorySize = 235081728
-FreePhysicalMemorySize = 4408066048
-FreeSwapSpaceSize = 11660513280
+Mini seconds elapsed = 35
+CommittedVirtualMemorySize = 234782720
+FreePhysicalMemorySize = 4579909632
+FreeSwapSpaceSize = 12320272384
 ProcessCpuLoad = -1.0
-ProcessCpuTime = 484375000
+ProcessCpuTime = 375000000
 SystemCpuLoad = -1.0
 TotalPhysicalMemorySize = 8398577664
 TotalSwapSpaceSize = 16988512256

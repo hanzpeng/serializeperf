@@ -1,15 +1,6 @@
 package pnpiot.serializationperf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Date;
-
-import org.apache.avro.Schema;
-import org.apache.avro.generic.GenericData;
-import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.io.BinaryDecoder;
-import org.apache.avro.io.DecoderFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,6 +10,7 @@ public class AppJson {
 	//static String jsonInputStr = "{\"timeStamp\":101,\"fixType\":102,\"latitude\":400,\"longitude\":500,\"heading\":300,\"altitude\":100,\"speed\":255}";
 	static int innerloop = 1000;
 	static long loops = 1000;
+	static String className = null;
 
 	public static void main(String[] args) throws Exception {
 		innerloop = 20;
@@ -27,6 +19,9 @@ public class AppJson {
 			loops = Math.abs(Integer.parseInt(args[0]));
 		}
 		long startTime = System.currentTimeMillis();
+		className = new Object(){}.getClass().getEnclosingClass().getSimpleName();
+		Result.cleanSampleFile(className);
+		
 		for (int i = 0; i < loops; i++) {
 			ObjectMapper mapper = new ObjectMapper();
 			StringBuilder jsonString = new StringBuilder();
@@ -35,11 +30,14 @@ public class AppJson {
 				// LocationJson jsonObject = mapper.readValue(jsonInputStr, LocationJson.class);			
 				jsonString.append(mapper.writeValueAsString(jsonObject) + "\r\n");
 			}
-			System.out.println(jsonString);
-			System.out.println();
+
+			String outputStr = jsonString + "\r\n";
+			Result.writeToSampleFile(className, outputStr);
+
+			//System.out.println(jsonString);
 		}
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		Result.writeToFile("AppJson", loops, elapsedTime);
+		Result.writeToFile(className, loops, elapsedTime);
 	}
 
 	private static LocationJson createLocationRecord(int i) {

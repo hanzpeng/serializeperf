@@ -13,4 +13,6 @@
 <fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location.Builder"/>
 <fullyQualifiedTypeName name="pnpiot.serializationperf.LocationProtobuf.Location"/>
 <fullyQualifiedTypeName name="java.io.ByteArrayInputStream"/>
+<fullyQualifiedTypeName name="java.io.BufferedWriter"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
 </qualifiedTypeNameHistroy>

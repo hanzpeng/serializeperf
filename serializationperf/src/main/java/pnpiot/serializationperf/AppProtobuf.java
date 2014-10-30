@@ -26,6 +26,7 @@ public class AppProtobuf {
 	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
 	static int innerloop = 1000;
 	static long loops = 1000;
+	static String className = null;
 
 	public static void main(String[] args) throws Exception {
 		innerloop = 20;
@@ -33,6 +34,10 @@ public class AppProtobuf {
 		if (args.length > 0) {
 			loops = Math.abs(Integer.parseInt(args[0]));
 		}
+		className = new Object() {
+		}.getClass().getEnclosingClass().getSimpleName();
+		Result.cleanSampleFile(className);
+
 		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < loops; i++) {
@@ -49,7 +54,7 @@ public class AppProtobuf {
 		}
 
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		Result.writeToFile("AppProtobuf", loops, elapsedTime);
+		Result.writeToFile(className, loops, elapsedTime);
 	}
 
 	private static LocationProtobuf.Location.Builder createLocationBuilder(int i) {
@@ -70,23 +75,23 @@ public class AppProtobuf {
 		LocationProtobuf.Location.Builder builder = LocationProtobuf.Location.newBuilder();
 		for (int j = 0; builder.mergeDelimitedFrom(input); j++) {
 			if (j % writeInterval == 0) {
-				System.out.print(new Date((long) builder.getTimeStamp()));
-				System.out.print(", ");
-				System.out.print(builder.getFixType());
-				System.out.print(", ");
-				System.out.print(builder.getLatitude());
-				System.out.print(", ");
-				System.out.print(builder.getLongitude());
-				System.out.print(", ");
-				System.out.print(builder.getHeading());
-				System.out.print(", ");
-				System.out.print(builder.getAltitude());
-				System.out.print(", ");
-				System.out.print(builder.getSpeed());
-				System.out.println();
+				Result.writeToSampleFile(className, builder.getTimeStamp());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getFixType());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getLatitude());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getLongitude());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getHeading());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getAltitude());
+				Result.writeToSampleFile(className, ", ");
+				Result.writeToSampleFile(className, builder.getSpeed());
+				Result.writeToSampleFile(className, "\r\n");
 			}
 		}
-		System.out.println();
+		Result.writeToSampleFile(className, "\r\n");
 	}
 }
 // to run the jar file in command line for 3000 loops:

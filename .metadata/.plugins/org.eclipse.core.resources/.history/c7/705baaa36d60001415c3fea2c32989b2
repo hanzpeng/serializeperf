@@ -1,0 +1,51 @@
+package pnpiot.serializationperf;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+public class Result {
+	public static void writeToFile(String filename, long loops, long elapsedTime) throws Exception {
+		String filePath = System.getProperty("user.dir") + "\\" + filename + ".csv";
+		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+
+		System.out.println("PerfCount,"+filename);
+		writer.println(filename + " Result");
+
+		System.out.println("Number of Iterations , " + loops);
+		writer.println("Number of Iterations , " + loops);
+
+		System.out.println("Mini seconds elapsed , " + elapsedTime);
+		writer.println("Mini seconds elapsed , " + elapsedTime);
+
+		OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+		for (Method method : operatingSystemMXBean.getClass().getDeclaredMethods()) {
+			method.setAccessible(true);
+			if (method.getName().startsWith("get") && Modifier.isPublic(method.getModifiers())) {
+				Object value = method.invoke(operatingSystemMXBean);
+				System.out.println(method.getName().substring(3) + " , " + value);
+				writer.println(method.getName().substring(3) + " , " + value);
+			}
+		}
+		writer.close();
+	}
+	public static void writeToSampleFile(String filename, String inputStr) throws Exception {
+		String filePath = System.getProperty("user.dir") + filename + "\\Sample" + ".txt";
+		//PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+		PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(filePath, true)));
+		writer.print(inputStr);
+		System.out.print(inputStr);
+		writer.close();
+	}
+
+	public static void cleanSampleFile(String filename) throws Exception {
+		String filePath = System.getProperty("user.dir") +"\\" + filename + ".sample" + ".txt";
+		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
+		writer.println();
+		writer.close();
+	}
+}

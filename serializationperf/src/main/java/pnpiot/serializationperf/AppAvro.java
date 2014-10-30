@@ -22,6 +22,7 @@ public class AppAvro {
 	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
 	static int innerloop = 1000;
 	static long loops = 1000;
+	static String className = null;
 
 	public static void main(String[] args) throws Exception {
 		innerloop = 20;
@@ -29,9 +30,13 @@ public class AppAvro {
 		if (args.length > 0) {
 			loops = Math.abs(Integer.parseInt(args[0]));
 		}
+		className = new Object(){}.getClass().getEnclosingClass().getSimpleName();
+		Result.cleanSampleFile(className);
+	
 		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
 		Schema schema = new Schema.Parser().parse(AvroSchemaStr);
 		long startTime = System.currentTimeMillis();
+
 		for (int i = 0; i < loops; i++) {
 			GenericRecord genericRecord = createLocationRecord(schema, i);
 			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
@@ -47,7 +52,7 @@ public class AppAvro {
 			outStream.close();
 		}
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		Result.writeToFile("AppAvro", loops, elapsedTime);
+		Result.writeToFile(className, loops, elapsedTime);
 	}
 
 	private static GenericRecord createLocationRecord(Schema schema, int i) {
@@ -62,7 +67,7 @@ public class AppAvro {
 		return genericRecord;
 	}
 
-	private static void displaySerializedRecord(ByteArrayOutputStream outStream, Schema schema) throws IOException {
+	private static void displaySerializedRecord(ByteArrayOutputStream outStream, Schema schema) throws Exception {
 		byte[] serializedBytes = outStream.toByteArray();
 		BinaryDecoder decoder = null;
 		decoder = DecoderFactory.get().binaryDecoder(serializedBytes, decoder);
@@ -72,10 +77,11 @@ public class AppAvro {
 		for (int j = 0; !decoder.isEnd(); j++) {
 			rec = reader.read(rec, decoder);
 			if (j % writeInterval == 0) {
-				System.out.println(new Date((Long) rec.get("timeStamp")) + "  " + rec.toString());
+				String outputStr = rec.toString() + "\r\n";
+				Result.writeToSampleFile(className, outputStr);
 			}
 		}
-		System.out.println();
+		Result.writeToSampleFile(className, "\r\n");
 	}
 }
 

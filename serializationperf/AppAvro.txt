@@ -1,11 +1,11 @@
 AppAvro Result
 Number of Iterations = 5
 Mini seconds elapsed = 47
-CommittedVirtualMemorySize = 250445824
-FreePhysicalMemorySize = 4394565632
-FreeSwapSpaceSize = 11645206528
+CommittedVirtualMemorySize = 251224064
+FreePhysicalMemorySize = 4574023680
+FreeSwapSpaceSize = 12310032384
 ProcessCpuLoad = -1.0
-ProcessCpuTime = 1093750000
-SystemCpuLoad = 0.49993599180695125
+ProcessCpuTime = 1125000000
+SystemCpuLoad = 0.9166748435373571
 TotalPhysicalMemorySize = 8398577664
 TotalSwapSpaceSize = 16988512256
