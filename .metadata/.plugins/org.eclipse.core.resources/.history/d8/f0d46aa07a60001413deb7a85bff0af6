@@ -1,0 +1,25 @@
+package pnpiot.serializationperf;
+
+public class AppBase implements IApp{
+	public String className = null;
+	public int innerloop;
+	long loops;
+
+	public AppBase(int innerloop, long loops) throws Exception
+	{
+	}
+	public void Init() {
+		
+	}
+	public void InitLoop(int i)
+	{
+		
+	}
+	public void RunLoop(int i)
+	{
+		
+	}
+	public void AfterLoop(int i)
+	{
+	}
+}

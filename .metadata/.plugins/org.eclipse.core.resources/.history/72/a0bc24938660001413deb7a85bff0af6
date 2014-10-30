@@ -1,0 +1,25 @@
+package pnpiot.serializationperf;
+
+public class AppBase{
+	public String className = null;
+	public int innerloop;
+	long loops;
+
+	public AppBase(int innerloop, int loops) throws Exception
+	{
+	}
+	public void Init() throws Exception{
+		
+	}
+	public void InitLoop(int i)throws Exception
+	{
+		
+	}
+	public void RunLoop(int i)throws Exception
+	{
+		
+	}
+	public void AfterLoop(int i)throws Exception
+	{
+	}
+}

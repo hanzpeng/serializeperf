@@ -23,38 +23,36 @@ import org.apache.avro.io.EncoderFactory;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 public class AppProtobuf {
-	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
-	static int innerloop = 1000;
-	static long loops = 1000;
 	static String className = null;
-
-	public static void main(String[] args) throws Exception {
-		innerloop = 20;
-		loops = 5;
-		if (args.length > 0) {
-			loops = Math.abs(Integer.parseInt(args[0]));
-		}
+	static {
 		className = new Object() {
 		}.getClass().getEnclosingClass().getSimpleName();
-		Result.cleanSampleFile(className);
+	}
 
-		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
+	public static void main(String[] args) throws Exception {
+		if (args.length > 0) {
+			Config.outerloop = Math.abs(Integer.parseInt(args[0]));
+		}
+		Result.cleanSampleFile(className);
 		long startTime = System.currentTimeMillis();
-		for (int i = 0; i < loops; i++) {
+
+		for (int i = 0; i < Config.outerloop; i++) {
 			LocationProtobuf.Location.Builder builder = null;
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			for (int j = 0; j < innerloop; j++) {
+
+			for (int j = 0; j < Config.innerloop; j++) {
 				builder = createLocationBuilder(j);
 				builder.setTimeStamp(new Date().getTime());
 				builder.build().writeDelimitedTo(out);
 			}
+
 			out.flush();
 			out.close();
 			displaySerializedRecord(out);
 		}
 
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		Result.writeToFile(className, loops, elapsedTime);
+		Result.writeToFile(className, elapsedTime);
 	}
 
 	private static LocationProtobuf.Location.Builder createLocationBuilder(int i) {
@@ -70,7 +68,7 @@ public class AppProtobuf {
 	}
 
 	private static void displaySerializedRecord(ByteArrayOutputStream out) throws Exception {
-		int writeInterval = innerloop / 5; // write 5 records for each innerloop
+		int writeInterval = Config.innerloop / 5; // write 5 records for each innerloop
 		InputStream input = new ByteArrayInputStream(out.toByteArray());
 		LocationProtobuf.Location.Builder builder = LocationProtobuf.Location.newBuilder();
 		for (int j = 0; builder.mergeDelimitedFrom(input); j++) {

@@ -1,0 +1,6 @@
+package pnpiot.serializationperf;
+
+public class Config {
+	static public int innerloop = 1000;
+	static public int loops = 1000;
+}

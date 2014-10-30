@@ -1,0 +1,10 @@
+package pnpiot.serializationperf;
+
+public class AppAvro1 extends AppBase {
+
+	public AppAvro1(int innerloop, int loops) throws Exception {
+		super(innerloop, loops);
+		// TODO Auto-generated constructor stub
+	}
+
+}

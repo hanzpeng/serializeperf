@@ -19,40 +19,43 @@ import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.io.EncoderFactory;
 
 public class AppAvro {
-	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
-	static int innerloop = 1000;
-	static long loops = 1000;
+	static String AvroSchemaStr;
 	static String className = null;
+	static {
+		className = new Object() {
+		}.getClass().getEnclosingClass().getSimpleName();
+
+		AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
+		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
+	}
 
 	public static void main(String[] args) throws Exception {
-		innerloop = 20;
-		loops = 5;
 		if (args.length > 0) {
-			loops = Math.abs(Integer.parseInt(args[0]));
+			Config.outerloop = Math.abs(Integer.parseInt(args[0]));
 		}
-		className = new Object(){}.getClass().getEnclosingClass().getSimpleName();
 		Result.cleanSampleFile(className);
-	
-		AvroSchemaStr = AvroSchemaStr.replace('`', '"');
-		Schema schema = new Schema.Parser().parse(AvroSchemaStr);
+		Schema schema = new Schema.Parser().parse(AvroSchemaStr);		
 		long startTime = System.currentTimeMillis();
-
-		for (int i = 0; i < loops; i++) {
+		
+		for (int i = 0; i < Config.outerloop; i++) {
 			GenericRecord genericRecord = createLocationRecord(schema, i);
 			ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 			BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(outStream, null);
 			DatumWriter<GenericRecord> datumWriter = new GenericDatumWriter<GenericRecord>(schema);
-			for (int j = 0; j < innerloop; j++) {
+
+			for (int j = 0; j < Config.innerloop; j++) {
 				genericRecord.put("timeStamp", new Date().getTime());
 				datumWriter.write(genericRecord, encoder);
 			}
+
 			encoder.flush();
 			displaySerializedRecord(outStream, schema);
 			outStream.reset();
 			outStream.close();
 		}
+		
 		long elapsedTime = System.currentTimeMillis() - startTime;
-		Result.writeToFile(className, loops, elapsedTime);
+		Result.writeToFile(className, elapsedTime);
 	}
 
 	private static GenericRecord createLocationRecord(Schema schema, int i) {
@@ -73,7 +76,7 @@ public class AppAvro {
 		decoder = DecoderFactory.get().binaryDecoder(serializedBytes, decoder);
 		GenericDatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord>(schema);
 		GenericRecord rec = null;
-		int writeInterval = innerloop / 5; // write 5 records for each innerloop
+		int writeInterval = Config.innerloop / 5; // write 5 records for each innerloop
 		for (int j = 0; !decoder.isEnd(); j++) {
 			rec = reader.read(rec, decoder);
 			if (j % writeInterval == 0) {

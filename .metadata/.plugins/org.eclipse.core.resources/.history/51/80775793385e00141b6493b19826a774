@@ -1,5 +1,0 @@
-package pnpiot.serializationperf;
-
-public class JsonApp {
-
-}

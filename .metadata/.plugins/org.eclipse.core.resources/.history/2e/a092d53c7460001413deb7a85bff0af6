@@ -1,0 +1,5 @@
+package pnpiot.serializationperf;
+
+public class AppBase {
+
+}

@@ -9,15 +9,21 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class Result {
-	public static void writeToFile(String filename, long loops, long elapsedTime) throws Exception {
+	public static void writeToFile(String filename, long elapsedTime) throws Exception {
 		String filePath = System.getProperty("user.dir") + "\\" + filename + ".csv";
 		PrintWriter writer = new PrintWriter(filePath, "UTF-8");
 
-		System.out.println("PerfCount," + filename);
-		writer.println(filename + " Result");
+		System.out.println("PerfCount, " + filename);
+		writer.println("PerfCount, " + filename);
 
-		System.out.println("Number of Iterations , " + loops);
-		writer.println("Number of Iterations , " + loops);
+		System.out.println("outer loops, " + Config.outerloop);
+		writer.println("outer loops, " + Config.outerloop);
+
+		System.out.println("inner loops, " + Config.innerloop);
+		writer.println("inner loops, " + Config.innerloop);
+
+		System.out.println("objects, " + Config.innerloop * Config.outerloop);
+		writer.println("objects, " + Config.innerloop * Config.outerloop);
 
 		System.out.println("Mini seconds elapsed , " + elapsedTime);
 		writer.println("Mini seconds elapsed , " + elapsedTime);

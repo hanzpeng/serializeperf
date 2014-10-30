@@ -1,0 +1,26 @@
+package pnpiot.serializationperf;
+
+public class AppBase implements IApp{
+	int innerloop;
+	long loops;
+	String className = null;
+
+	public AppBase(int innerloop, long loops) throws Exception
+	{
+		this.innerloop = innerloop;
+		this.loops = loops;
+		className = new Object(){}.getClass().getEnclosingClass().getSimpleName();
+		Result.cleanSampleFile(className);
+	}
+	public void Init() {
+		
+	}
+	public void InitLoop(int i)
+	{
+		
+	}
+	public void RunLoop(int i)
+	{
+		
+	}
+}

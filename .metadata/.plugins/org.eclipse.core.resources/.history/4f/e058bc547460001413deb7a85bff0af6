@@ -1,0 +1,20 @@
+package pnpiot.serializationperf;
+
+public class AppBase implements IApp{
+	static String AvroSchemaStr = "{`type`: `record`,`name`: `Car.Location`,`fields`: [{`name`: `timeStamp`,`type`: `long`},{`name`: `fixType`,`type`: `int`},{`name`: `latitude`,`type`: `int`},{`name`: `longitude`,`type`: `int`},{`name`: `heading`,`type`: `int`},{`name`: `altitude`,`type`: `int`},{`name`: `speed`,`type`: `int`}]}";
+	int innerloop = 1000;
+	long loops = 1000;
+	String className = null;
+
+	public AppBase(int innerloop, int loops) throws Exception
+	{
+		className = new Object(){}.getClass().getEnclosingClass().getSimpleName();
+		this.innerloop = innerloop;
+		this.loops = loops;
+		Result.cleanSampleFile(className);
+	}
+	public void Init() {
+		
+	}
+
+}

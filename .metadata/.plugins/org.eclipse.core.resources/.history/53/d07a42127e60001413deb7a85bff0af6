@@ -1,0 +1,50 @@
+package pnpiot.serializationperf;
+
+public class App {
+	static int innerloop = 1000;
+	static int loops = 1000;
+	static String appString;
+	
+	public static void main(String[] args) throws Exception {
+		innerloop = 20;
+		loops = 5;
+		String appString;
+		appString = "pb";
+		appString = "json";
+		appString = "avro";
+		
+		if(args.length > 0)
+		{
+			appString = args[0];
+		}
+		if (args.length > 1) {
+			loops = Math.abs(Integer.parseInt(args[1]));
+		}
+
+		AppBase app = null;
+		switch (appString){
+			case "avro":
+				app = new AppAvro1(innerloop,loops);
+				break;
+			case "json":
+				//app = new AppJson1(innerloop,loops);
+				break;
+			case "pb":
+				//app = new AppProtobuf(innerloop,loops);
+				break;			
+		}
+			
+		app.Init();
+
+		long startTime = System.currentTimeMillis();
+		for (int i = 0; i < loops; i++) {
+			app.InitLoop(i);
+			for (int j = 0; j < innerloop; j++) {
+				app.RunLoop(i);
+			}
+			app.AfterLoop(i);
+		}
+		long elapsedTime = System.currentTimeMillis() - startTime;
+		Result.writeToFile(app.className, loops, elapsedTime);
+	}
+}

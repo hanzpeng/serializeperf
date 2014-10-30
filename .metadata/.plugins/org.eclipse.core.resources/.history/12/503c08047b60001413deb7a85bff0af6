@@ -1,0 +1,8 @@
+package pnpiot.serializationperf;
+
+public interface IApp {
+	void Init() throws Exception;
+	void InitLoop(int i)throws Exception;
+	void RunLoop(int i)throws Exception;
+	void AfterLoop(int i)throws Exception;	
+}

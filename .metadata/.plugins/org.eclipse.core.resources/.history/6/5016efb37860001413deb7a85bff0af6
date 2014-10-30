@@ -1,0 +1,9 @@
+package pnpiot.serializationperf;
+
+public interface IApp {
+	void Init();
+	void InitLoop(int i);
+	void RunLoop(int i);
+	void AfterLoop(int i);
+	
+}

@@ -1,0 +1,6 @@
+package pnpiot.serializationperf;
+
+public interface IApp {
+	public void Init();
+	
+}
